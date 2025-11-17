@@ -1,45 +1,38 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
-import { NewAppScreen } from '@react-native/new-app-screen';
-import { StatusBar, StyleSheet, useColorScheme, View } from 'react-native';
-import {
-  SafeAreaProvider,
-  useSafeAreaInsets,
-} from 'react-native-safe-area-context';
-
-function App() {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  return (
-    <SafeAreaProvider>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <AppContent />
-    </SafeAreaProvider>
-  );
-}
+// App.tsx (root)
+import React from 'react';
+import { ThemeProvider, useTheme } from '@src/theme/ThemeProvider';
+import RootNavigator from '@src/navigation/RootNavigator';
+import { NetworkStatus } from '@src/components/NetworkStatus';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { KeyboardProvider } from 'react-native-keyboard-controller';
+import { Platform, StatusBar, View } from 'react-native';
 
 function AppContent() {
-  const safeAreaInsets = useSafeAreaInsets();
-
+  const { mode } = useTheme();
+  console.log('themeMode', mode);
   return (
-    <View style={styles.container}>
-      <NewAppScreen
-        templateFileName="App.tsx"
-        safeAreaInsets={safeAreaInsets}
-      />
+    <View style={{ flex: 1 }}>
+
+      <RootNavigator />
+      {Platform.OS === 'android' && (
+        <StatusBar
+          backgroundColor={'transparent'}
+          barStyle={mode == 'light' ? 'dark-content' : 'light-content'}
+        />
+      )}
+      <NetworkStatus />
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
-
-export default App;
+export default function App() {
+  return (
+    <GestureHandlerRootView>
+      <KeyboardProvider>
+        <ThemeProvider>
+          <AppContent />
+        </ThemeProvider>
+      </KeyboardProvider>
+    </GestureHandlerRootView>
+  );
+}
