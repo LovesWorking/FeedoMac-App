@@ -7,7 +7,7 @@ type Props = {
   text: string;
   me?: boolean;
   time?: string;
-  status?: 'sent' | 'delivered' | 'seen';
+  status?: 'sent' | 'delivered' | 'seen' | 'failed' |'sending';
 };
 
 export default function ChatBubble({ text, me = false, time, status }: Props) {

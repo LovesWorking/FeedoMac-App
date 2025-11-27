@@ -1390,6 +1390,40 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
+"@react-buoy/core@^1.5.20":
+  version "1.5.20"
+  resolved "https://registry.yarnpkg.com/@react-buoy/core/-/core-1.5.20.tgz#9102b1711aa946f745a3daf4a86c99951e96774e"
+  integrity sha512-hCsjN/8VkxhRFz7cYSFErQgnTB2eJb16jMo4gerBLGTmwFTjywrHdabbS+muwEgRp5itcz3QuuSmvL1rgB107Q==
+  dependencies:
+    "@react-buoy/shared-ui" "1.5.20"
+
+"@react-buoy/env@^1.5.20":
+  version "1.5.20"
+  resolved "https://registry.yarnpkg.com/@react-buoy/env/-/env-1.5.20.tgz#00ccd84191bcd2e7c125963e528503f0ad81f1ea"
+  integrity sha512-AZgJ6SOW7nipf6QwWWkRPqibKcxC46cJyboTm/vEWt3Or7Ec2mZ1sVyZozFVsmea66O0pwAuX7nbSx7jsWuqQQ==
+  dependencies:
+    "@react-buoy/shared-ui" "1.5.20"
+
+"@react-buoy/network@^1.5.20":
+  version "1.5.20"
+  resolved "https://registry.yarnpkg.com/@react-buoy/network/-/network-1.5.20.tgz#1476c28d65a323ee9707788d043c09d4f73e7e93"
+  integrity sha512-NugziDignmo8vch9fVHOIFbPw2DHasxAibbwqWyr4IslZeH9QsQFfUcqT8ABL1W7hoRD6pFy70SrH/cyz/aHKg==
+  dependencies:
+    "@react-buoy/react-query" "1.5.20"
+    "@react-buoy/shared-ui" "1.5.20"
+
+"@react-buoy/react-query@1.5.20":
+  version "1.5.20"
+  resolved "https://registry.yarnpkg.com/@react-buoy/react-query/-/react-query-1.5.20.tgz#25f90c7625681e1009cc70dce42f314939dce667"
+  integrity sha512-MIPM9H7ZZ9cQkYHZqcdQLp+7F9BYRKoNecHtMqCAtoavct2iKIUIxSsaOjeG3TclKu0ZbHsT7bQTzsb6fKY7CA==
+  dependencies:
+    "@react-buoy/shared-ui" "1.5.20"
+
+"@react-buoy/shared-ui@1.5.20":
+  version "1.5.20"
+  resolved "https://registry.yarnpkg.com/@react-buoy/shared-ui/-/shared-ui-1.5.20.tgz#a84277c963726cda74d59eaf308c5ac7ba03e368"
+  integrity sha512-rTQKF8UBg5KV5WRprQJzlYpp/dyT6wCZubw8Jo2HCI3ahN0W+EaGJr1fOCv7NEvwVAgTduOZJyNzVkGzl3EEUQ==
+
 "@react-native-community/cli-clean@20.0.0":
   version "20.0.0"
   resolved "https://registry.yarnpkg.com/@react-native-community/cli-clean/-/cli-clean-20.0.0.tgz#e685f5404195ded69c81d1394e8c5eb332b780bc"
@@ -1839,6 +1873,18 @@
   integrity sha512-V4BG07kuYSUkTCSBHG8G8TNhM+F19jXFWnQtzj+we8DrkpSBCee9Z3Ms8yiGer/dlmhe35/Xdgyo3/0rQKg7YA==
   dependencies:
     "@sinonjs/commons" "^3.0.0"
+
+"@tanstack/query-core@5.90.11":
+  version "5.90.11"
+  resolved "https://registry.yarnpkg.com/@tanstack/query-core/-/query-core-5.90.11.tgz#702e2b197a01481cff858045de1e17a634b718c6"
+  integrity sha512-f9z/nXhCgWDF4lHqgIE30jxLe4sYv15QodfdPDKYAk7nAEjNcndy4dHz3ezhdUaR23BpWa4I2EH4/DZ0//Uf8A==
+
+"@tanstack/react-query@^5.90.11":
+  version "5.90.11"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-query/-/react-query-5.90.11.tgz#9e7669cda649ed119f70b6432b3932f19cbe1cb5"
+  integrity sha512-3uyzz01D1fkTLXuxF3JfoJoHQMU2fxsfJwE+6N5hHy0dVNoZOvwKP8Z2k7k1KDeD54N20apcJnG75TBAStIrBA==
+  dependencies:
+    "@tanstack/query-core" "5.90.11"
 
 "@types/babel__core@^7.1.14":
   version "7.20.5"
@@ -4733,11 +4779,6 @@ kleur@^3.0.3:
   resolved "https://registry.yarnpkg.com/kleur/-/kleur-3.0.3.tgz#a79c9ecc86ee1ce3fa6206d1216c501f147fc07e"
   integrity sha512-eTIzlVOSUR+JxdDFepEYcBMtZ9Qqdef+rnzWdRZuMbOywu5tO2w2N7rqjoANZ5k9vywhL6Br1VRjUIgTQx4E8w==
 
-laravel-echo@^2.2.6:
-  version "2.2.6"
-  resolved "https://registry.yarnpkg.com/laravel-echo/-/laravel-echo-2.2.6.tgz#99b4b710db7430fb64036233f1f479f66bc149ca"
-  integrity sha512-KuCldOrE8qbm0CVDBgc6FiX3VuReDu1C1xaS891KqwEUg9NT/Op03iiZqTWeVd0/WJ4H95q2pe9QEDJlwb/FPw==
-
 launch-editor@^2.9.1:
   version "2.12.0"
   resolved "https://registry.yarnpkg.com/launch-editor/-/launch-editor-2.12.0.tgz#cc740f4e0263a6b62ead2485f9896e545321f817"
@@ -5581,13 +5622,6 @@ pure-rand@^6.0.0:
   version "6.1.0"
   resolved "https://registry.yarnpkg.com/pure-rand/-/pure-rand-6.1.0.tgz#d173cf23258231976ccbdb05247c9787957604f2"
   integrity sha512-bVWawvoZoBYpp6yIoQtQXHZjmz35RSVHnUOTefl8Vcjr8snTPY1wnpSPMWekcFwbxI6gtmT7rSYPFvz71ldiOA==
-
-pusher-js@^8.4.0:
-  version "8.4.0"
-  resolved "https://registry.yarnpkg.com/pusher-js/-/pusher-js-8.4.0.tgz#eb28dca291f553ad9622f4e421d14c23abbaf40f"
-  integrity sha512-wp3HqIIUc1GRyu1XrP6m2dgyE9MoCsXVsWNlohj0rjSkLf+a0jLvEyVubdg58oMk7bhjBWnFClgp8jfAa6Ak4Q==
-  dependencies:
-    tweetnacl "^1.0.3"
 
 qs@6.13.0:
   version "6.13.0"
@@ -6456,11 +6490,6 @@ ts-api-utils@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/ts-api-utils/-/ts-api-utils-2.1.0.tgz#595f7094e46eed364c13fd23e75f9513d29baf91"
   integrity sha512-CUgTZL1irw8u29bzrOD/nH85jqyc74D6SshFgujOIA7osm2Rz7dYH77agkx7H4FBNxDq7Cjf+IjaX/8zwFW+ZQ==
-
-tweetnacl@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/tweetnacl/-/tweetnacl-1.0.3.tgz#ac0af71680458d8a6378d0d0d050ab1407d35596"
-  integrity sha512-6rt+RN7aOi1nGMyC4Xa5DdYiukl2UWCbcJft7YhxReBGQD7OAM8Pbxw6YMo4r2diNEA8FEmu32YOn9rhaiE5yw==
 
 type-check@^0.4.0, type-check@~0.4.0:
   version "0.4.0"

@@ -1,18 +1,54 @@
 // @src/screens/Auth/LoginScreen.tsx
 import React, { useState } from 'react';
-import { View, TextInput, TouchableOpacity, StatusBar, StyleSheet } from 'react-native';
+import { View, TextInput, TouchableOpacity, StatusBar, StyleSheet, Alert } from 'react-native';
 import { useTheme } from '@src/theme/ThemeProvider';
 import CustomText from '@src/components/CustomText';
 import { CustomKeyboardAvoidingView } from '@src/components/CustomKeyboardAvoidingView';
 import { Eye, EyeOff } from 'lucide-react-native';
 import { SCREENS } from '@src/constants/screens';
 import { navigate } from '@src/navigation/navigationRef';
+import { getDeviceInfo } from '@src/utils/device';
+import { loginApi } from '@src/api/auth';
+import { useUserStore } from '@src/store/userStore';
 
 export default function LoginScreen() {
   const { theme } = useTheme();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+
+  const setUser = useUserStore((state: any) => state.setUser);
+  const setUserToken = useUserStore((state: any) => state.setUserToken);
+
+  const handleLogin = async () => {
+    const { device_id, device_name } = getDeviceInfo();
+
+    if (!email.trim() || !password.trim()) {
+      Alert.alert('Error', 'Email and password are required.');
+      return;
+    }
+
+    try {
+      const data = await loginApi({ email, password, device_id, device_name });
+      setUser(data.user);
+      setUserToken(data.token);
+      Alert.alert('Success', `Welcome ${data.user.name}`);
+      navigate(SCREENS.ChatList);
+    } catch (err: any) {
+      console.error("backend login", err);
+
+      // Backend validation errors
+      if (err?.response?.data?.message) {
+        Alert.alert('Error', err.response.data.message);
+      } else if (err?.response?.data?.errors) {
+        // Laravel Validation errors
+        const messages = Object.values(err.response.data.errors).flat().join('\n');
+        Alert.alert('Error', messages);
+      } else {
+        Alert.alert('Error', 'Login failed. Please try again.');
+      }
+    }
+  };
 
   return (
     <CustomKeyboardAvoidingView style={[styles.container, { backgroundColor: theme.background }]} keyboardVerticalOffset={0}>
@@ -59,7 +95,7 @@ export default function LoginScreen() {
 
         <TouchableOpacity
           style={[styles.button, { backgroundColor: theme.primary }]}
-          onPress={() => navigate(SCREENS.ChatList)}>
+          onPress={handleLogin}>
           <CustomText weight="medium" style={{ color: '#fff' }}>
             Login
           </CustomText>
