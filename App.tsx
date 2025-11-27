@@ -5,6 +5,7 @@ import RootNavigator from '@src/navigation/RootNavigator';
 import { NetworkStatus } from '@src/components/NetworkStatus';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { KeyboardProvider } from 'react-native-keyboard-controller';
+import WebsocketProvider from '@src/components/WebsocketProvider';
 import { Platform, StatusBar, View } from 'react-native';
 
 function AppContent() {
@@ -27,10 +28,12 @@ function AppContent() {
 
 export default function App() {
   return (
-    <GestureHandlerRootView>
+    <GestureHandlerRootView style={{ flex: 1 }}>
       <KeyboardProvider>
         <ThemeProvider>
-          <AppContent />
+          <WebsocketProvider>
+            <AppContent />
+          </WebsocketProvider>
         </ThemeProvider>
       </KeyboardProvider>
     </GestureHandlerRootView>

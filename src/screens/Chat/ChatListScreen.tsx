@@ -24,6 +24,8 @@ import httpApi from '@src/api/http';
 import { logoutApi } from '@src/api/auth';
 import { removeItem } from '@src/storage/mmkvStorage';
 import { useUserStore } from '@src/store/userStore';
+import { useRealtimeStore } from '@src/store/realtimeStore';
+import { useConversationsStore } from '@src/store/conversationsStore';
 
 export default function ChatListScreen() {
   const { theme, mode, setMode } = useTheme();
@@ -31,10 +33,13 @@ export default function ChatListScreen() {
 
   const user = useUserStore((state: any) => state.user);
   const setUser = useUserStore((state: any) => state.setUser);
+  const presence = useRealtimeStore((s) => s.presence);
+  const typing = useRealtimeStore((s) => s.typing);
 
   const [loading, setLoading] = useState(true);
   const [logoutLoading, setLogoutLoading] = useState(false);
-  const [conversations, setConversations] = useState([]);
+  const conversations = useConversationsStore((s) => s.conversations);
+  const setConversations = useConversationsStore((s) => s.setConversations);
   const [refreshing, setRefreshing] = useState(false);
 
   // -------------------------------
@@ -43,6 +48,7 @@ export default function ChatListScreen() {
   const loadConversations = async () => {
     try {
       const res = await httpApi.get('/conversations');
+      // store conversations in central store so websocket upserts can update it
       setConversations(res.data);
     } catch (error) {
       console.log('Conversation Load Error:', error);
@@ -92,7 +98,20 @@ export default function ChatListScreen() {
   };
 
   const renderItem = ({ item }: any) => {
-    const partner = item?.users?.find((u: any) => u?.id !== user?.id); // other user
+    // Find the other participant (robust to different API shapes)
+    const partnerFromUsers = item?.users?.find((u: any) => u?.id !== user?.id);
+    const partnerId = partnerFromUsers?.id ?? item.partner_id ?? item.user_id ?? item.other_user_id ?? null;
+    const partner = partnerFromUsers ?? { id: partnerId, name: item.name, avatar: item.avatar };
+console.log("partnerrr", item)
+    // presence can be keyed by number or string; try both
+    const presenceValue = presence?.[partnerId] ?? presence?.[String(partnerId)];
+    const partnerOnline = typeof presenceValue !== 'undefined' ? presenceValue : ((item.online == 1) || (item.is_online === 1));
+    // typing is stored by conversation id; try numeric and string keys
+    const isTyping = typing?.[item.id] ?? typing?.[String(item.id)];
+
+    // last message: try multiple common keys returned by API
+    const lastMessage = item.lastMessage ?? item.last_message ?? item.last_message_text ?? item.last?.text ?? item.message_preview ?? item.lastMessagePreview;
+
     return (
       <TouchableOpacity
         style={styles.row}
@@ -113,18 +132,18 @@ export default function ChatListScreen() {
             />
           </View>
 
-          {item.online == 1 && (
+          {partnerOnline && (
             <View style={[styles.onlineDot, { backgroundColor: theme.online }]} />
           )}
         </View>
 
         <View style={styles.meta}>
           <CustomText weight="medium" style={{ fontSize: 16 }}>
-            {item.name}
+            {partner?.name ?? item.name}
           </CustomText>
 
           <CustomText style={{ color: theme.subText, marginTop: 4 }}>
-            {item.lastMessage || 'No messages yet'}
+            {isTyping ? 'Typing...' : (lastMessage || 'No messages yet')}
           </CustomText>
         </View>
 
@@ -188,13 +207,7 @@ export default function ChatListScreen() {
       </View>
 
       {/* List or empty state */}
-      {conversations?.length === 0 ? (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', paddingHorizontal: 24 }}>
-          <CustomText style={{ fontSize: 16, color: theme.subText, textAlign: 'center' }}>
-            Start Chatting With Registered User
-          </CustomText>
-        </View>
-      ) : (
+    
         <FlatList
           data={conversations}
           keyExtractor={(item: any) => item.id.toString()}
@@ -202,7 +215,7 @@ export default function ChatListScreen() {
           contentContainerStyle={{ paddingHorizontal: 10 }}
           refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
         />
-      )}
+     
 
       {/* Logout Loader */}
       {logoutLoading && (

@@ -22,6 +22,7 @@ import { MenuView } from '@react-native-menu/menu';
 import { EllipsisVertical, Image as ImageIcon, Send } from 'lucide-react-native';
 import FastImage from 'react-native-fast-image';
 import { useUserStore } from '@src/store/userStore';
+import { useConversationsStore } from '@src/store/conversationsStore';
 import {
   connect,
   disconnect,
@@ -216,6 +217,8 @@ export default function ChatScreen() {
 
         if (cancelled) return;
         setConversationId(convId);
+        // set active conversation globally so unread won't be incremented for this chat
+        useConversationsStore.getState().setActiveConversation(convId);
         setHasMore(true);
         setPage(1);
         await loadMessages(convId, 1);
@@ -233,6 +236,8 @@ export default function ChatScreen() {
 
     return () => {
       cancelled = true;
+      // clear active conversation when leaving
+      useConversationsStore.getState().setActiveConversation(null);
     };
   }, [route.params.userId, userToken, refreshRenderMessages]);
 
