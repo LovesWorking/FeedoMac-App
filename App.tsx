@@ -7,13 +7,13 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { KeyboardProvider } from 'react-native-keyboard-controller';
 import WebsocketProvider from '@src/components/WebsocketProvider';
 import { Platform, StatusBar, View } from 'react-native';
+import { FloatingDevTools } from '@react-buoy/core';
 
 function AppContent() {
   const { mode } = useTheme();
   console.log('themeMode', mode);
   return (
     <View style={{ flex: 1 }}>
-
       <RootNavigator />
       {Platform.OS === 'android' && (
         <StatusBar
@@ -22,6 +22,7 @@ function AppContent() {
         />
       )}
       <NetworkStatus />
+      <FloatingDevTools />
     </View>
   );
 }
